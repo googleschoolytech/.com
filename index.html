@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchoolyTech - Premium Project Development for Students</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #8e6dfc;
+      --primary-dark: #6b4fd9;
+      --secondary: #5a3db8;
+      --text-dark: #1a1a2e;
+      --text-light: #5a5a6e;
+      --bg-light: #f8f7fc;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(142, 109, 252, 0.12);
+      --shadow-lg: 0 12px 32px rgba(142, 109, 252, 0.18);
+      --radius: 12px;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    .notification-bar {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      overflow: hidden;
+    }
+
+    .notification-text {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll 25s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.98);
+      padding: 0.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+      padding: 0.5rem 0;
+    }
+
+    .logo img {
+      height: 70px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background: var(--primary);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::after { width: 80%; }
+    .nav-links a:hover {
+      color: var(--primary);
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-menu span {
+      width: 25px;
+      height: 3px;
+      background: var(--primary);
+      margin: 3px 0;
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 50%, #d5d5d5 100%);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .hero::before {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.05), transparent);
+      top: -250px;
+      right: -250px;
+    }
+
+    .hero::after {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.03), transparent);
+      bottom: -200px;
+      left: -200px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--primary);
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.1rem 2.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow-lg);
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button.secondary {
+      background: var(--white);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .cta-button.secondary:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .stats {
+      padding: 3rem 2rem;
+      background: var(--white);
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card { text-align: center; padding: 1.5rem; }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-light);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .services {
+      padding: 5rem 2rem;
+      background: var(--bg-light);
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .section-header { text-align: center; margin-bottom: 4rem; }
+
+    .section-badge {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      border: 2px solid var(--primary);
+    }
+
+    .section-header h2 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .section-header p {
+      font-size: 1.15rem;
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      transform: scaleX(0);
+      transition: var(--transition);
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: var(--white);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .service-card p {
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    .service-features i {
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .service-link:hover { gap: 0.75rem; }
+
+    .projects {
+      padding: 5rem 2rem;
+      background: var(--white);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .project-card {
+      background: var(--bg-light);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid #e5e5e5;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .project-image {
+      height: 220px;
+      background: linear-gradient(135deg, #a889ff, var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent, rgba(0,0,0,0.1));
+    }
+
+    .project-content { padding: 2rem; }
+
+    .project-category {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .project-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-dark);
+    }
+
+    .project-card p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .project-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .contact {
+      padding: 5rem 2rem;
+      background: var(--white);
+    }
+
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--text-dark);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--bg-light);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      border: 1px solid #e5e5e5;
+    }
+
+    .contact-item:hover {
+      transform: translateX(5px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary);
+    }
+
+    .contact-icon {
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      background: var(--bg-light);
+      padding: 3rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid #e5e5e5;
+    }
+
+    .form-group { margin-bottom: 1.5rem; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      transition: var(--transition);
+      font-family: inherit;
+      background: var(--white);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(142, 109, 252, 0.1);
+    }
+
+    #batchGroup {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      padding: 1.1rem 2.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(142, 109, 252, 0.3);
+    }
+
+    footer {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 4rem 2rem 1.5rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-section h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+      display: block;
+      transition: var(--transition);
+      line-height: 1.8;
+    }
+
+    .footer-section a:hover {
+      color: var(--white);
+      transform: translateX(3px);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      transition: var(--transition);
+      margin-bottom: 0;
+    }
+
+    .social-links a:hover {
+      background: var(--white);
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
+      text-align: center;
+      color: #cbd5e1;
+    }
+
+    .chatbot-icon {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 65px;
+      height: 65px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      z-index: 1001;
+      border: 3px solid var(--white);
+    }
+
+    .chatbot-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .chatbot-icon i {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 110px;
+      right: 25px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        flex-direction: column;
+        padding: 1rem 2rem;
+        box-shadow: var(--shadow-lg);
+        gap: 0;
+      }
+
+      .nav-links.active { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a { width: 100%; display: block; padding: 1rem; }
+      .mobile-menu { display: flex; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.05rem; }
+      .cta-buttons { flex-direction: column; }
+      .cta-button { width: 100%; }
+      .contact-content { grid-template-columns: 1fr; gap: 2rem; }
+      .section-header h2 { font-size: 2.2rem; }
+      .logo img { height: 55px; }
+      .services-grid, .projects-grid { grid-template-columns: 1fr; }
+      .scroll-top { bottom: 100px; right: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      nav { padding: 0.5rem 1rem; }
+      .hero { padding: 3rem 1rem 2rem; }
+      .hero h1 { font-size: 2rem; }
+      .section-header h2 { font-size: 1.8rem; }
+      .logo img { height: 50px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="notification-bar">
+    <div class="notification-text">
+      🧠 Learn, 🛠️ Create, 🌟 Achieve | Hands-On Project Training for School & College Students | High-Quality Projects at 💰 Pocket-Friendly Prices!
+    </div>
+  </div>
+  <nav>
+    <div class="nav-container">
+      <a href="#home" class="logo" aria-label="SchoolyTech Home">
+        <img src="Website Logo.png" alt="SchoolyTech">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="mobile-menu" aria-label="Mobile menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="hero-content fade-in">
+      <div class="hero-badge">
+        <i class="fas fa-star"></i> Premium Quality • Affordable Pricing
+      </div>
+      <h1>Empowering Students with <br>Premium Project Solutions</h1>
+      <p>Expert project development services for school and college students. We provide comprehensive practical knowledge with clear explanations to strengthen your understanding and build real-world skills.</p>
+      <div class="cta-buttons">
+        <a href="#services" class="cta-button">
+          <i class="fas fa-rocket"></i>
+          Explore Our Services
+        </a>
+        <a href="#contact" class="cta-button secondary">
+          <i class="fas fa-phone"></i>
+          Get Free Consultation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="services">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-badge">Our Services</div>
+        <h2>Comprehensive Project Solutions</h2>
+        <p>From concept to completion, we provide end-to-end project development with detailed explanations</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-brain"></i></div>
+          <h3>AI & Machine Learning</h3>
+          <p>AI/ML projects with clear explanation of algorithms and practical implementation strategies.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Agentic AI</li>
+            <li><i class="fas fa-check-circle"></i> AI Agents</li>
+            <li><i class="fas fa-check-circle"></i> LLM's</li>
+            <li><i class="fas fa-check-circle"></i> Image Processing</li>
+            <li><i class="fas fa-check-circle"></i> Predictive Models</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Edge AI Systems</h3>
+          <p>Advanced Edge AI applications designed to run directly on devices.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Smart Surveillance Systems</li>
+            <li><i class="fas fa-check-circle"></i> Autonomous Edge Agents</li>
+            <li><i class="fas fa-check-circle"></i> Voice & Vision Assistants</li>
+            <li><i class="fas fa-check-circle"></i> Real-Time Object Detection</li>
+            <li><i class="fas fa-check-circle"></i> Predictive Maintenance Systems</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-robot"></i></div>
+          <h3>Robotics Systems</h3>
+          <p>Innovative robotics solutions designed for automation, precision, and real-world applications.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Industrial Automation Robots</li>
+            <li><i class="fas fa-check-circle"></i> Autonomous Mobile Robots (AMR)</li>
+            <li><i class="fas fa-check-circle"></i> Robotic Vision Systems</li>
+            <li><i class="fas fa-check-circle"></i> Human-Robot Interaction</li>
+            <li><i class="fas fa-check-circle"></i> Custom Robotics Development</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>        
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-microchip"></i></div>
+          <h3>IoT & Embedded Systems</h3>
+          <p>Innovative IoT projects and embedded system solutions with hardware integration and programming support.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Arduino Projects</li>
+            <li><i class="fas fa-check-circle"></i> Raspberry Pi Solutions</li>
+            <li><i class="fas fa-check-circle"></i> Sensor Integration</li>
+            <li><i class="fas fa-check-circle"></i> Circuit Designs</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+          <h3>Software Development</h3>
+          <p>Custom software projects with complete source code documentation and detailed explanation of every module.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Web Applications</li>
+            <li><i class="fas fa-check-circle"></i> Desktop Applications</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3>Mobile App Development</h3>
+          <p>Android & ios applications tailored for academic projects with step-by-step implementation guidance.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Android Applications</li>
+            <li><i class="fas fa-check-circle"></i> ios Applications</li>
+            <li><i class="fas fa-check-circle"></i> Cross-Platform Apps</li>
+            <li><i class="fas fa-check-circle"></i> UI/UX Design</li>
+            <li><i class="fas fa-check-circle"></i> Testing & Deployment</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
+          <h3>CAD Designs</h3>
+          <p>Professional CAD designs for mechanical and architectural projects with detailed technical drawings.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> SolidWorks 3D Modeling</li>
+            <li><i class="fas fa-check-circle"></i> CorelDRAW 2D Design</li>
+            <li><i class="fas fa-check-circle"></i> Real-World Products</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>        
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Cybersecurity Projects</h3>
+          <p>Security-focused projects including penetration testing, encryption, and network security implementations.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> Security Auditing</li>
+            <li><i class="fas fa-check-circle"></i> Encryption Systems</li>
+            <li><i class="fas fa-check-circle"></i> Network Security</li>
+            <li><i class="fas fa-check-circle"></i> Ethical Hacking</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-in">
+          <div class="service-icon"><i class="fas fa-calculator"></i></div>
+          <h3>Maths Coaching</h3>
+          <p>Personalized maths tutoring for students of all levels, focusing on conceptual understanding and problem-solving skills.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check-circle"></i> One-on-One Sessions</li>
+            <li><i class="fas fa-check-circle"></i> Customized Study Plans</li>
+            <li><i class="fas fa-check-circle"></i> Interactive Learning</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>        
+
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="projects">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-badge">Our Work</div>
+        <h2>Featured Projects</h2>
+        <p>Explore our portfolio of successful student projects across various domains</p>
+      </div>
+      <div class="projects-grid">
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-brain"></i></div>
+          <div class="project-content">
+            <span class="project-category">Agentic Agents</span>
+            <h3>Advanced AI System</h3>
+            <p>Fully autonomous AI Agents with advanced decision-making capabilities.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 7 Days</span>
+              <span><i class="fas fa-star"></i> 4.9/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-microchip"></i></div>
+          <div class="project-content">
+            <span class="project-category">Edge AI</span>
+            <h3>Edge AI System</h3>
+            <p>Intelligent edge devices capable of real-time data processing and decision-making.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 7 Days</span>
+              <span><i class="fas fa-star"></i> 4.3/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-robot"></i></div>
+          <div class="project-content">
+            <span class="project-category">Intelligent Robots</span>
+            <h3>Fully Autonomous Robotic System</h3>
+            <p>Advanced robotic system with autonomous navigation, object recognition, and task execution capabilities.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 7 Days</span>
+              <span><i class="fas fa-star"></i> 4.9/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-shopping-cart"></i></div>
+          <div class="project-content">
+            <span class="project-category">Web Development</span>
+            <h3>E-Commerce Platform</h3>
+            <p>Full-featured online shopping system with payment gateway, inventory management, and admin dashboard.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 7 Days</span>
+              <span><i class="fas fa-star"></i> 4.9/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-heartbeat"></i></div>
+          <div class="project-content">
+            <span class="project-category">IoT</span>
+            <h3>Health Monitoring System</h3>
+            <p>IoT-based health monitoring with real-time data tracking, alerts, and cloud storage integration.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 10 Days</span>
+              <span><i class="fas fa-star"></i> 5.0/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-chart-line"></i></div>
+          <div class="project-content">
+            <span class="project-category">Machine Learning</span>
+            <h3>Stock Price Predictor</h3>
+            <p>ML-based stock market analysis tool with historical data processing and future price predictions.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 12 Days</span>
+              <span><i class="fas fa-star"></i> 4.8/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-book-reader"></i></div>
+          <div class="project-content">
+            <span class="project-category">Mobile App</span>
+            <h3>Library Management App</h3>
+            <p>Android application for library automation with book tracking, member management, and QR scanning.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 8 Days</span>
+              <span><i class="fas fa-star"></i> 4.9/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-home"></i></div>
+          <div class="project-content">
+            <span class="project-category">IoT</span>
+            <h3>Smart Home Automation</h3>
+            <p>Complete home automation system with voice control, mobile app, and energy monitoring features.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 14 Days</span>
+              <span><i class="fas fa-star"></i> 5.0/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-image"><i class="fas fa-robot"></i></div>
+          <div class="project-content">
+            <span class="project-category">AI</span>
+            <h3>Chatbot Assistant</h3>
+            <p>Intelligent chatbot with natural language processing, context understanding, and multi-domain support.</p>
+            <div class="project-meta">
+              <span><i class="fas fa-clock"></i> 9 Days</span>
+              <span><i class="fas fa-star"></i> 4.7/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>SchoolyTech</h4>
+        <p>Empowering students with premium project development services. We deliver quality, affordability, and comprehensive practical knowledge.</p>
+        <div class="social-links">
+          <a href="https://wa.me/919486711894?text=Hello%20SchoolyTech" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="tel:+919486711894" aria-label="Call"><i class="fas fa-phone"></i></a>
+          <a href="mailto:callschoolytech@gmail.com?subject=Inquiry&body=Hello%20SchoolyTech" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#services">Our Services</a>
+        <a href="#projects">Featured Projects</a>
+        <a href="#contact">Contact Us</a>
+      </div>
+      <div class="footer-section">
+        <h4>Our Services</h4>
+        <a href="#services">Software Development</a>
+        <a href="#services">Mobile Apps</a>
+        <a href="#services">IoT Projects</a>
+        <a href="#services">AI & ML</a>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Documentation</a>
+        <a href="#">Project Guidelines</a>
+        <a href="#">FAQs</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 SchoolyTech. All rights reserved. | Designed for Student Success 🎓</p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" onclick="scrollToTop()" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('loaded');
+        });
+      }, { threshold: 0.1 });
+      fadeElements.forEach(el => observer.observe(el));
+    });
+
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    if (mobileMenu && navLinks) {
+      mobileMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+      });
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          mobileMenu.classList.remove('active');
+        });
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.querySelector('.scroll-top');
+      if (scrollTop) {
+        scrollTop.classList.toggle('visible', window.pageYOffset > 300);
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openChatbot() {
+      alert('Chat feature coming soon! Please contact us via:\n\nEmail: callschoolytech@gmail.com\nPhone: +91 94867 11894');
+    }
+
+    const educationSelect = document.getElementById('education');
+    const collegeGroup = document.getElementById('collegeGroup');
+    const collegeInput = document.getElementById('college');
+    
+    educationSelect.addEventListener('change', function() {
+      if (this.value === 'college') {
+        collegeGroup.style.display = 'block';
+        collegeInput.required = true;
+      } else {
+        collegeGroup.style.display = 'none';
+        collegeInput.required = false;
+        collegeInput.value = '';
+      }
+    });
+
+    const trainingTypeSelect = document.getElementById('trainingType');
+    const batchGroup = document.getElementById('batchGroup');
+    const batchSizeInput = document.getElementById('batchSize');
+    
+    trainingTypeSelect.addEventListener('change', function() {
+      if (this.value === 'batch') {
+        batchGroup.style.display = 'block';
+        batchSizeInput.required = true;
+      } else {
+        batchGroup.style.display = 'none';
+        batchSizeInput.required = false;
+        batchSizeInput.value = '';
+      }
+    });
+
+    function selectPlan(plan) {
+      const confirmed = confirm(`You've selected the ${plan} plan.\n\nWould you like to proceed to the contact form?`);
+      if (confirmed) {
+        document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => document.getElementById('project').focus(), 1000);
+      }
+    }
+
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const education = document.getElementById('education').value;
+  const college = document.getElementById('college').value;
+  const trainingType = document.getElementById('trainingType').value;
+  const batchSize = document.getElementById('batchSize').value;
+  const project = document.getElementById('project').value;
+  const message = document.getElementById('message').value;
+
+  // Format WhatsApp message
+  const whatsappMsg = `*New Project Request*
+
+📝 *Name:* ${name}
+📧 *Email:* ${email}
+📱 *Phone:* ${phone}
+🎓 *Education:* ${education}
+${college ? `🏫 *College:* ${college}` : ''}
+👥 *Training Type:* ${trainingType}
+${batchSize ? `👨‍👩‍👧‍👦 *Batch Size:* ${batchSize}` : ''}
+💼 *Project Type:* ${project}
+📋 *Details:*
+${message}`;
+
+  // Open WhatsApp
+  const whatsappURL = `https://wa.me/919486711894?text=${encodeURIComponent(whatsappMsg)}`;
+  window.open(whatsappURL, '_blank');
+  
+  alert('Redirecting to WhatsApp...');
+  this.reset();
+});
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && href.length > 1) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+<script src='https://www.noupe.com/embed/019ab48ad38b7fdf86c77ea0d5dd679e40c3.js'></script>
+</body>
+</html>
